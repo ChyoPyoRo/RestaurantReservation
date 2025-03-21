@@ -1,14 +1,13 @@
 package com.zerobase.restaurant.controller;
 
 import com.zerobase.restaurant.dto.ResponseDto;
-import com.zerobase.restaurant.dto.SignInRequestDto;
-import com.zerobase.restaurant.dto.SignUpRequestDto;
+import com.zerobase.restaurant.dto.userDetail.SignInRequestDto;
+import com.zerobase.restaurant.dto.userDetail.SignUpRequestDto;
 import com.zerobase.restaurant.enums.CustomError;
 import com.zerobase.restaurant.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

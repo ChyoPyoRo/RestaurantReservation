@@ -1,7 +1,7 @@
 package com.zerobase.restaurant.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.zerobase.restaurant.dto.SignInRequestDto;
+import com.zerobase.restaurant.dto.userDetail.SignInRequestDto;
 import com.zerobase.restaurant.entity.UserData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

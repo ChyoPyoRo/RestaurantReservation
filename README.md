@@ -3,9 +3,9 @@
 ## API 리스트
 - 회원 가입 : 3가지의 Role 설정(ADMIN, PARTNER, USER). 중복 가입 불가능
 - 회원 로그인 : Jwt token값 전달
+- 매장 등록 : 매장 중복 등록 불가, Partner 회원만 저장 가능
 
 ## 진행 예정
-- 매장 등록 : 이미 등록된 매장인지 확인 > lat과 lon과 매장 이름으로 확인 / partner인지 확인
 - 매장 수정 :
 - 매장 삭제 : 해당 매장의 등록자인지 확인
 - 예약 진행 : 해당 시간대에 예약 없는지 확인
@@ -15,8 +15,8 @@
 - 리뷰 삭제 : 작성자, 관리자 모두 가능
 
 ## [ERD](https://www.erdcloud.com/d/smDikgt573kNAKBsC) 
-![img.png](img.png)
 
+![img.png](img.png)
 ## 사용 스택
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-%236DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white)

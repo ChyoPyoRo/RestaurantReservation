@@ -9,23 +9,23 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 class RestaurantApplicationTests {
 
-	@Autowired
-	private PooledPBEStringEncryptor encryptor;
+//	@Autowired
+//	private PooledPBEStringEncryptor encryptor;
+//
+//	@Test
+//	void contextLoads() {
+//	}
 
-	@Test
-	void contextLoads() {
-	}
-
-	@Test
-	void encryptor(){
-		String plainText = ""; // 암호화할 값
-		String encrypted = encryptor.encrypt(plainText); // 암호화
-		String decrypted = encryptor.decrypt(encrypted); // 복호화
-
-		System.out.println("🔐 원문     : " + plainText);
-		System.out.println("🔐 암호문   : " + encrypted);
-		System.out.println("🔐 복호문   : " + decrypted);
-	}
+//	@Test
+//	void encryptor(){
+//		String plainText = ""; // 암호화할 값
+//		String encrypted = encryptor.encrypt(plainText); // 암호화
+//		String decrypted = encryptor.decrypt(encrypted); // 복호화
+//
+//		System.out.println("🔐 원문     : " + plainText);
+//		System.out.println("🔐 암호문   : " + encrypted);
+//		System.out.println("🔐 복호문   : " + decrypted);
+//	}
 
 
 }

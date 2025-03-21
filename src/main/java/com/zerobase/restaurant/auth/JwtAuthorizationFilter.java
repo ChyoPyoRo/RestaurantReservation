@@ -53,7 +53,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);//다음 filter로 이동
         }catch (ExpiredJwtException e){
-            setErrorResponse(response, CustomError.UNAUTHORIZED);
+            setErrorResponse(response, CustomError.JWT_EXPIRED);
         }catch (JwtException e){
             setErrorResponse(response, CustomError.HEADER_WITHOUT_TOKEN);
         }

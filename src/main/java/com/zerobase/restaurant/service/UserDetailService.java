@@ -2,9 +2,9 @@ package com.zerobase.restaurant.service;
 
 import com.zerobase.restaurant.auth.JwtTokenProvider;
 import com.zerobase.restaurant.dto.ResponseDto;
-import com.zerobase.restaurant.dto.SignInRequestDto;
-import com.zerobase.restaurant.dto.SignInResponseDto;
-import com.zerobase.restaurant.dto.SignUpRequestDto;
+import com.zerobase.restaurant.dto.userDetail.SignInRequestDto;
+import com.zerobase.restaurant.dto.userDetail.SignInResponseDto;
+import com.zerobase.restaurant.dto.userDetail.SignUpRequestDto;
 import com.zerobase.restaurant.entity.UserData;
 import com.zerobase.restaurant.enums.CustomError;
 import com.zerobase.restaurant.enums.RoleType;

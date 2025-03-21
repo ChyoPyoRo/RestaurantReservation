@@ -1,14 +1,15 @@
 package com.zerobase.restaurant.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInResponseDto {
-    private String accessToken;
+public class UserSessionDto {
+    private String userUuid;
+    private String roleType;
 }

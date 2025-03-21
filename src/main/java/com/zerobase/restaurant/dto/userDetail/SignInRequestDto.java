@@ -1,4 +1,4 @@
-package com.zerobase.restaurant.dto;
+package com.zerobase.restaurant.dto.userDetail;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
