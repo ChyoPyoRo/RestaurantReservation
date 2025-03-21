@@ -11,6 +11,8 @@
 - 리뷰 수정 : 작성자만 가능
 - 리뷰 삭제 : 작성자, 관리자 모두 가능
 
+## [ERD](https://www.erdcloud.com/d/smDikgt573kNAKBsC) 
+![img.png](img.png)
 
 ## 사용 스택
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
