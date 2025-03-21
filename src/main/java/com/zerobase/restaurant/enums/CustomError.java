@@ -16,7 +16,8 @@ public enum CustomError {
     //user관련 에러
     UNAUTHORIZED("E0201", "접근 권한이 없습니다."),
     WRONG_ROLE_TYPE("E0202", "잘못된 역할 값입니다."),
-    ALREADY_SIGN_UP("E0203", "이미 회원 가입한 대상입니다.")
+    ALREADY_SIGN_UP("E0203", "이미 회원 가입한 대상입니다."),
+    WRONG_LOGIN_INFO("E0204", "로그인 정보가 잘못 되었습니다.")
     ;
 
     private final String errorCode;

@@ -15,8 +15,7 @@ import java.util.Date;
 public class JwtTokenProvider {
     @Value("${jwt.secretkey}")
     private String secretKey;//이전 커밋하고 다른 값
-    @Value("${jwt.expireTime}")
-    private static final Long expirationMs = 3600 * 1000L;//이전 커밋하고 다른 값
+    private Long expirationMs = 3600*1000L;//1시간
     private SecretKey key;
     @PostConstruct
     public void init() {
@@ -25,8 +24,8 @@ public class JwtTokenProvider {
 
     public String createToken(UserData user) {
         Date now = new Date();
-        String userUuid = user.getUuid().toString();
-        String role = user.getRole().getRole();
+        String userUuid = user.getUuid().toString();//uuid 값
+        String role = user.getRole().getRole();//getRole 값
         return Jwts.builder()
                 .subject(userUuid+":"+role)//jwt 제목
                 .issuedAt(now)//생성 시간
@@ -43,7 +42,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .getSubject();
+                .getSubject();//제목 돌려주기
     }
 
 }

@@ -2,6 +2,7 @@
 
 ## API 리스트
 - 회원 가입 : 3가지의 Role 설정(ADMIN, PARTNER, USER). 중복 가입 불가능
+- 회원 로그인 : Jwt token값 전달
 
 ## 진행 예정
 - 매장 등록 : 이미 등록된 매장인지 확인 > lat과 lon과 매장 이름으로 확인 / partner인지 확인

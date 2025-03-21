@@ -1,6 +1,9 @@
 package com.zerobase.restaurant.service;
 
+import com.zerobase.restaurant.auth.JwtTokenProvider;
 import com.zerobase.restaurant.dto.ResponseDto;
+import com.zerobase.restaurant.dto.SignInRequestDto;
+import com.zerobase.restaurant.dto.SignInResponseDto;
 import com.zerobase.restaurant.dto.SignUpRequestDto;
 import com.zerobase.restaurant.entity.UserData;
 import com.zerobase.restaurant.enums.CustomError;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor//DI 용
 public class UserDetailService {
     private final UserDetailRepository userDetailRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder pwdEncoder;
 
     public ResponseDto<?> signUpUser(SignUpRequestDto requestDto){
@@ -33,4 +37,12 @@ public class UserDetailService {
         return ResponseDto.success();
     }
 
+    public ResponseDto<?> signInUser(SignInRequestDto requestDto){
+        UserData user = userDetailRepository.findUserByPhoneNumber(requestDto);
+        //해당 번호로 저장된 user가 없거나, 비밀번호가 일치하지 않음
+        //자세한 정보를 client에게 주지 않음
+        if(user == null || !pwdEncoder.matches(requestDto.getPassword(), user.getPassword())) throw new IllegalArgumentException(CustomError.WRONG_LOGIN_INFO.name());
+        SignInResponseDto response = new SignInResponseDto(jwtTokenProvider.createToken(user));
+        return ResponseDto.success(response);
+    }
 }
