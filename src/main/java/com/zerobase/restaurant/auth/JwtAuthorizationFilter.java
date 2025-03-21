@@ -2,7 +2,7 @@ package com.zerobase.restaurant.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zerobase.restaurant.dto.ResponseDto;
-import com.zerobase.restaurant.enums.ErrorCode;
+import com.zerobase.restaurant.enums.CustomError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.io.IOException;
@@ -36,39 +36,35 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, java.io.IOException {
-        List<String> nonAuthUrls = Arrays.asList("/auth/signin", "/auth/signup");
+        List<String> nonAuthUrls = Arrays.asList("/signin", "/signup"); //해당 url에 대해서 jwt 인증 스킵
 
         String requestURI = request.getRequestURI();
 
-        if(nonAuthUrls.contains(requestURI)){
+        if(nonAuthUrls.contains(requestURI)){//목록에 존재하는 url이면 스킵
             filterChain.doFilter(request,response);
             return;
         }
 
         try{
-            String token = parseBearerToken(request);
-            if(token == null){
-                throw new IllegalArgumentException();
-            }
-            User user = parseUserSpecification(token);
-            AbstractAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
+            String token = parseBearerToken(request);//token 추출
+            User user = parseUserSpecification(token);//유저 정보 추출
+            AbstractAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());//해당 값 전달
             authenticationToken.setDetails(new WebAuthenticationDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);//다음 filter로 이동
         }catch (ExpiredJwtException e){
-            setErrorResponse(response, ErrorCode.UNAUTHORIZED);
+            setErrorResponse(response, CustomError.UNAUTHORIZED);
         }catch (JwtException e){
-            setErrorResponse(response, ErrorCode.JWT_TOKEN_INVALID);
-        }catch(  IllegalArgumentException e){
-            setErrorResponse(response, ErrorCode.WRONG_TOKEN);
+            setErrorResponse(response, CustomError.HEADER_WITHOUT_TOKEN);
         }
     }
 
     private String parseBearerToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-                .filter(token -> token.substring(0, 7).equalsIgnoreCase("Bearer "))
-                .map(token -> token.substring(7))
-                .orElse(null);
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (token == null || !token.toLowerCase().startsWith("bearer ")) {
+            throw new JwtException("Missing or malformed Authorization header");
+        }
+        return token.substring(7);
     }
     private User parseUserSpecification(String token) {
         String[] split = Optional.ofNullable(token)
@@ -80,13 +76,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
     }
 
-    private void setErrorResponse(HttpServletResponse response, ErrorCode errorCode) {
+    private void setErrorResponse(HttpServletResponse response, CustomError customError) {
         ObjectMapper objectMapper = new ObjectMapper();
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
-        log.error(errorCode.name(), errorCode.getErrorMessage());
-        ResponseDto<?> responseDto = ResponseDto.error(HttpStatus.UNAUTHORIZED, errorCode);
+        log.error(customError.name(), customError.getErrorMessage());
+        ResponseDto<?> responseDto = ResponseDto.error(HttpStatus.UNAUTHORIZED, customError);
         try{
             response.getWriter().write(objectMapper.writeValueAsString(responseDto));
         } catch (IOException | java.io.IOException e) {

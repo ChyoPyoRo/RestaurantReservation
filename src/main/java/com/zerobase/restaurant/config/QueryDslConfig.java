@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class QueryDslConfig {
+    //jpa queryconfig를 사용하기 위한 Config
     @PersistenceContext
     private EntityManager entityManager;
 

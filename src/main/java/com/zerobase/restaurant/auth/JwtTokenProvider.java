@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -12,8 +13,10 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private static final String secretKey = "2hQOsrQjNPT4b5BwtaHQy2yx5MYQfuWs92J80b8ecn/lRPEgC8QifFsH9IflnoV0n3ozb7ahKmc8md7v2fdc1A==";
-    private static final Long expirationMs = 3600 * 1000L;//한시간
+    @Value("${jwt.secretkey}")
+    private String secretKey;//이전 커밋하고 다른 값
+    @Value("${jwt.expireTime}")
+    private static final Long expirationMs = 3600 * 1000L;//이전 커밋하고 다른 값
     private SecretKey key;
     @PostConstruct
     public void init() {

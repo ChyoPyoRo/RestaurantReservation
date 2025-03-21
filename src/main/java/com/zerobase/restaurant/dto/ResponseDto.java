@@ -2,11 +2,10 @@ package com.zerobase.restaurant.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zerobase.restaurant.enums.Description;
-import com.zerobase.restaurant.enums.ErrorCode;
+import com.zerobase.restaurant.enums.CustomError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -33,7 +32,7 @@ public class ResponseDto<T> {//항상 일정한 response를 보내주기 위한 
         return new ResponseDto<>(200, Description.SUCCESS, null, null, null);
     }
 
-    public static ResponseDto<Void> error(HttpStatus status, ErrorCode errorCode) {
-        return new ResponseDto<>(status.value(), Description.FAIL, null, errorCode.getErrorCode(), errorCode.getErrorMessage());
+    public static ResponseDto<Void> error(HttpStatus status, CustomError customError) {
+        return new ResponseDto<>(status.value(), Description.FAIL, null, customError.getErrorCode(), customError.getErrorMessage());
     }
 }
