@@ -56,6 +56,7 @@ public class RestaurantDetailService {
 
     public ResponseDto<?> getDetailRestaurant(String restaurantId) {
         GetRestaurantDetailResponseDto response = restaurantDetailRepository.getDetailRestaurant(UUID.fromString(restaurantId));
+        if(response == null) throw new NoSuchElementException(CustomError.NO_SUCH_RESTAURANT.name());
         return ResponseDto.success(response);
     }
 
