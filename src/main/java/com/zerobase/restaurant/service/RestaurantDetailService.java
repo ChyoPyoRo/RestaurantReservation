@@ -1,6 +1,7 @@
 package com.zerobase.restaurant.service;
 
 import com.zerobase.restaurant.dto.ResponseDto;
+import com.zerobase.restaurant.dto.restaurantDetail.GetAllRestaurantResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.SaveRestaurantRequestDto;
 import com.zerobase.restaurant.entity.Restaurant;
 import com.zerobase.restaurant.enums.CustomError;
@@ -10,8 +11,12 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,6 +42,13 @@ public class RestaurantDetailService {
         restaurantDetailRepository.save(restaurant);
         //성공 response
         return ResponseDto.success();
+    }
+
+    public ResponseDto<?> getAllRestaurants(Integer page) {
+        int pageSize = 10;//한 페이지에 10개 가게
+        Pageable pageable = PageRequest.of(page-1, pageSize);//사용자에게 1쪽으로, 시스템에선 0부터 시작
+        Page<GetAllRestaurantResponseDto> result = restaurantDetailRepository.getAllRestaurants(pageable);
+        return ResponseDto.success(result);
     }
 
 }
