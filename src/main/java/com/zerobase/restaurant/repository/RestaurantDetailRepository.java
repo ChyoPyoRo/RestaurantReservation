@@ -19,6 +19,7 @@ import java.util.UUID;
 
 import static com.zerobase.restaurant.entity.QRestaurant.restaurant;
 import static com.zerobase.restaurant.entity.QReview.review;
+import static com.zerobase.restaurant.entity.QReservation.reservation;
 
 
 @Repository
@@ -51,7 +52,8 @@ public class RestaurantDetailRepository {
                         review.score.avg()//review에 해당되는 row들 평균 가져오기
                         ))
                 .from(restaurant)
-                .leftJoin(review).on(restaurant.uuid.eq(review.restaurantId))//uuid 값이 동일한 row들 가져옴
+                .leftJoin(reservation).on(restaurant.uuid.eq(reservation.reservationId))//Reservation 중에 restaurantId를 가지고 있는 row들
+                .leftJoin(review).on(reservation.uuid.eq(review.reservationId))//Review중에 Reservation을 가지고 있는 row들
                 .groupBy(restaurant.uuid, restaurant.name, restaurant.lat, restaurant.lon)
                 .offset((pageable.getOffset()))
                 .limit(pageable.getPageSize())
@@ -65,8 +67,9 @@ public class RestaurantDetailRepository {
         return queryFactory.select(Projections.constructor(GetRestaurantDetailResponseDto.class,
                         restaurant.uuid.as("restaurantId"),
                         restaurant.name,
-                        restaurant.lat.doubleValue(),
-                        restaurant.lon.doubleValue()
+                        restaurant.lat.doubleValue(),//double타입으로 변환
+                        restaurant.lon.doubleValue(),
+                        restaurant.table_count
                         ))
                 .from(restaurant)
                 .where(restaurant.uuid.eq(restaurantId))
@@ -81,8 +84,8 @@ public class RestaurantDetailRepository {
 
     public long deleteRestaurant(UUID uuid, UUID userId) {
         return queryFactory.delete(restaurant)
-                .where(restaurant.uuid.eq(uuid))
-                .where(restaurant.partnerId.eq(userId))
-                .execute();
+                .where(restaurant.uuid.eq(uuid))//식당 uuid 값 일치
+                .where(restaurant.partnerId.eq(userId))//partnerid일치
+                .execute();//실행하고 삭제 수량 return
     }
 }

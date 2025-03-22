@@ -14,10 +14,8 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-    @Column(name="user_id", nullable = false)
-    private UUID userId;
-    @Column(name="restaurant_id", nullable=false)
-    private UUID restaurantId;//FKey 사용 안함
+    @Column(nullable = false, name = "reservation_id")
+    private UUID reservationId;
     @Column(nullable=false)
     private Double score;
     @Column

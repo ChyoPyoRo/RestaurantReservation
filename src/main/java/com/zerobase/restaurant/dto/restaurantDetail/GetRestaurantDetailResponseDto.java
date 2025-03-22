@@ -14,4 +14,5 @@ public class GetRestaurantDetailResponseDto {
     private String name;
     private Double lat;
     private Double lon;
+    private Integer tableCount;
 }

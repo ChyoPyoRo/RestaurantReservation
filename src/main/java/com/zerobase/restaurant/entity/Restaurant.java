@@ -23,11 +23,14 @@ public class Restaurant {
     @Column(precision = 10, scale = 6)
     private BigDecimal lon;//x좌표
     private String explanation;
+    @Column(nullable = false)
+    private Integer table_count;
 
     public void update(UpdateRestaurantRequestDto restaurant) {
         this.name = restaurant.getName();
         this.lat = restaurant.getLat();
         this.lon = restaurant.getLon();
         this.explanation = restaurant.getExplanation();
+        this.table_count = restaurant.getTableCount();
     }
 }

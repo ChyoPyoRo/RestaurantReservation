@@ -14,6 +14,7 @@ public class UpdateRestaurantRequestDto {
     private String explanation;
     private BigDecimal lat;
     private BigDecimal lon;
+    private Integer tableCount;
 
     public void setLat(BigDecimal lat) {
         this.lat = normalizeCoordinate(lat);
