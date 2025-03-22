@@ -3,6 +3,7 @@ package com.zerobase.restaurant.controller;
 import com.zerobase.restaurant.dto.ResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.GetAllRestaurantResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.SaveRestaurantRequestDto;
+import com.zerobase.restaurant.dto.restaurantDetail.UpdateRestaurantRequestDto;
 import com.zerobase.restaurant.enums.CustomError;
 import com.zerobase.restaurant.service.RestaurantDetailService;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,18 @@ public class RestaurantDetailController {
         if(page < 1) page = 1;//1번째 페이지 이전의 값이 오면 초반 페이지로 고정
         ResponseDto<?> result = restaurantDetailService.getAllRestaurants(page);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> getRestaurantById(@PathVariable String restaurantId) {
+        if(restaurantId == null || restaurantId.isEmpty()) throw new IllegalArgumentException(CustomError.BAD_REQUEST.name());
+        ResponseDto<?> result = restaurantDetailService.getDetailRestaurant(restaurantId);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> updateRestaurntInfo(@PathVariable String restaurantId, @RequestBody UpdateRestaurantRequestDto requestDto){
+//        ResponseDto<?> result = restaurantDetailService.updateRestarant();
+        return ResponseEntity.ok().build();
     }
 }

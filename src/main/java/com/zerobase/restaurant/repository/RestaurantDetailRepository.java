@@ -2,7 +2,9 @@ package com.zerobase.restaurant.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.zerobase.restaurant.dto.ResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.GetAllRestaurantResponseDto;
+import com.zerobase.restaurant.dto.restaurantDetail.GetRestaurantDetailResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.SaveRestaurantRequestDto;
 import com.zerobase.restaurant.entity.Restaurant;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.zerobase.restaurant.entity.QRestaurant.restaurant;
 import static com.zerobase.restaurant.entity.QReview.review;
@@ -58,4 +61,15 @@ public class RestaurantDetailRepository {
     }
 
 
+    public GetRestaurantDetailResponseDto getDetailRestaurant(UUID restaurantId) {
+        return queryFactory.select(Projections.constructor(GetRestaurantDetailResponseDto.class,
+                        restaurant.uuid.as("restaurantId"),
+                        restaurant.name,
+                        restaurant.lat.doubleValue(),
+                        restaurant.lon.doubleValue()
+                        ))
+                .from(restaurant)
+                .where(restaurant.uuid.eq(restaurantId))
+                .fetchOne();
+    }
 }

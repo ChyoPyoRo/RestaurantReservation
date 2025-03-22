@@ -2,6 +2,7 @@ package com.zerobase.restaurant.service;
 
 import com.zerobase.restaurant.dto.ResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.GetAllRestaurantResponseDto;
+import com.zerobase.restaurant.dto.restaurantDetail.GetRestaurantDetailResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.SaveRestaurantRequestDto;
 import com.zerobase.restaurant.entity.Restaurant;
 import com.zerobase.restaurant.enums.CustomError;
@@ -49,6 +50,11 @@ public class RestaurantDetailService {
         Pageable pageable = PageRequest.of(page-1, pageSize);//사용자에게 1쪽으로, 시스템에선 0부터 시작
         Page<GetAllRestaurantResponseDto> result = restaurantDetailRepository.getAllRestaurants(pageable);
         return ResponseDto.success(result);
+    }
+
+    public ResponseDto<?> getDetailRestaurant(String restaurantId) {
+        GetRestaurantDetailResponseDto response = restaurantDetailRepository.getDetailRestaurant(UUID.fromString(restaurantId));
+        return ResponseDto.success(response);
     }
 
 }
