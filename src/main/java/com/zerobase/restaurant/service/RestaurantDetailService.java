@@ -67,4 +67,11 @@ public class RestaurantDetailService {
         restaurant.update(requestDto);//영속성 컨텍스트에서 변화가 감지되서 update
         return ResponseDto.success();
     }
+
+    public ResponseDto<?> deleteRestaurant(String restaurantId) throws IllegalAccessException {
+        UUID userId = UserUtil.getUserIdWithPartner();
+        long deletedRows =restaurantDetailRepository.deleteRestaurant(UUID.fromString(restaurantId), userId);
+        if(deletedRows == 0) throw new NoSuchElementException(CustomError.DELETED_ERROR.name());
+        return ResponseDto.success();
+    }
 }

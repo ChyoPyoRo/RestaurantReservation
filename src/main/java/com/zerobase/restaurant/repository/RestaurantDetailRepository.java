@@ -78,4 +78,11 @@ public class RestaurantDetailRepository {
                 .where(restaurant.uuid.eq(restaurantId))
                 .fetchOne();
     }
+
+    public long deleteRestaurant(UUID uuid, UUID userId) {
+        return queryFactory.delete(restaurant)
+                .where(restaurant.uuid.eq(uuid))
+                .where(restaurant.partnerId.eq(userId))
+                .execute();
+    }
 }

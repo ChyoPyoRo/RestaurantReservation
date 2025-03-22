@@ -34,7 +34,7 @@ public class RestaurantDetailController {
 
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<?> getRestaurantById(@PathVariable String restaurantId) {
-        if(restaurantId == null || restaurantId.isEmpty()) throw new IllegalArgumentException(CustomError.BAD_REQUEST.name());
+        //pathVariable에는 null이 올 수 없음
         ResponseDto<?> result = restaurantDetailService.getDetailRestaurant(restaurantId);
         return ResponseEntity.ok(result);
     }
@@ -43,6 +43,13 @@ public class RestaurantDetailController {
     public ResponseEntity<?> updateRestaurntInfo(@PathVariable String restaurantId, @RequestBody UpdateRestaurantRequestDto requestDto) throws IllegalAccessException {
         if(!requestDto.isValid()) throw new IllegalArgumentException(CustomError.BAD_REQUEST.name());//pathVariable은 null값이 올 수 없음
         ResponseDto<?> result = restaurantDetailService.updateRestaurant(restaurantId, requestDto);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> deleteRestaurant(@PathVariable String restaurantId) throws IllegalAccessException {
+        //pathVariable에는 null이 올 수 없음
+        ResponseDto<?> result = restaurantDetailService.deleteRestaurant(restaurantId);
         return ResponseEntity.ok(result);
     }
 }

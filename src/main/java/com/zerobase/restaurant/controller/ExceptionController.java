@@ -10,9 +10,19 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @ControllerAdvice
 public class ExceptionController {
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ResponseDto> handleNoSuchElementException(NoSuchElementException ex) {
+        CustomError customError = CustomError.valueOf(ex.getMessage());//커스텀 객체로 생성
+        log.error(customError.getErrorCode());//어떤 에러인지 확인
+        log.error("발생 위치 : {}:{}",ex.getStackTrace()[0].getFileName(), ex.getStackTrace()[0].getLineNumber());//어디서 발생했는지 확인
+        return new ResponseEntity<>(ResponseDto.error(HttpStatus.CONFLICT, customError), HttpStatus.CONFLICT);//에러 response
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseDto> handleIllegalArgumentException(IllegalArgumentException ex) {
