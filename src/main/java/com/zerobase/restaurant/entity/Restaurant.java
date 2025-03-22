@@ -1,5 +1,6 @@
 package com.zerobase.restaurant.entity;
 
+import com.zerobase.restaurant.dto.restaurantDetail.UpdateRestaurantRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +23,11 @@ public class Restaurant {
     @Column(precision = 10, scale = 6)
     private BigDecimal lon;//x좌표
     private String explanation;
+
+    public void update(UpdateRestaurantRequestDto restaurant) {
+        this.name = restaurant.getName();
+        this.lat = restaurant.getLat();
+        this.lon = restaurant.getLon();
+        this.explanation = restaurant.getExplanation();
+    }
 }

@@ -37,12 +37,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, java.io.IOException {
-        List<String> nonAuthUrls = Arrays.asList("/signin", "/signup", "/restaurants", "/restaurant/*"); //해당 url에 대해서 jwt 인증 스킵
+        List<String> nonAuthUrls = Arrays.asList("/restaurants", "/restaurant/*"); //해당 url에 대해서 jwt 인증 스킵
         String requestURI = request.getRequestURI();
         String method = request.getMethod();
         AntPathMatcher pathMatcher = new AntPathMatcher();
         //get method이면서, 리스트에 포함된 경로일 경우
-        boolean isSkip = "GET".equals(method) && nonAuthUrls.stream().anyMatch(url -> pathMatcher.match(url, requestURI));
+        boolean isGetPublic = "GET".equals(method) && nonAuthUrls.stream().anyMatch(url -> pathMatcher.match(url, requestURI));
+        //signUp과 signIn
+        boolean isPostSigninOrSignup = "POST".equals(method) && ("/signin".equals(requestURI) || "/signup".equals(requestURI));
+
+        boolean isSkip = isGetPublic || isPostSigninOrSignup;
         if(isSkip){//목록에 존재하는 url이면 스킵
             filterChain.doFilter(request,response);
             return;

@@ -4,6 +4,7 @@ import com.zerobase.restaurant.dto.ResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.GetAllRestaurantResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.GetRestaurantDetailResponseDto;
 import com.zerobase.restaurant.dto.restaurantDetail.SaveRestaurantRequestDto;
+import com.zerobase.restaurant.dto.restaurantDetail.UpdateRestaurantRequestDto;
 import com.zerobase.restaurant.entity.Restaurant;
 import com.zerobase.restaurant.enums.CustomError;
 import com.zerobase.restaurant.repository.RestaurantDetailRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -57,4 +59,11 @@ public class RestaurantDetailService {
         return ResponseDto.success(response);
     }
 
+    public ResponseDto<?> updateRestaurant(String restaurantId, UpdateRestaurantRequestDto requestDto) throws IllegalAccessException {
+        Restaurant restaurant = restaurantDetailRepository.getRestaurantEntity(UUID.fromString(restaurantId));
+        if(restaurant == null) throw new NoSuchElementException(CustomError.NO_SUCH_RESTAURANT.name());
+        if(!restaurant.getPartnerId().equals(UserUtil.getUserIdWithPartner()) ) throw new IllegalAccessException(CustomError.UNAUTHORIZED.name());//해당 가게의 등록자가 아님
+        restaurant.update(requestDto);//영속성 컨텍스트에서 변화가 감지되서 update
+        return ResponseDto.success();
+    }
 }

@@ -72,4 +72,10 @@ public class RestaurantDetailRepository {
                 .where(restaurant.uuid.eq(restaurantId))
                 .fetchOne();
     }
+
+    public Restaurant getRestaurantEntity(UUID restaurantId) {
+        return queryFactory.selectFrom(restaurant)
+                .where(restaurant.uuid.eq(restaurantId))
+                .fetchOne();
+    }
 }

@@ -20,7 +20,8 @@ public enum CustomError {
     ALREADY_SIGN_UP("E0203", "이미 회원 가입한 대상입니다."),
     WRONG_LOGIN_INFO("E0204", "로그인 정보가 잘못 되었습니다."),
     //restaurant 관련 에러
-    ALREADY_SAVED_RESTAURANT("E0301", "이미 저장된 가게입니다")
+    ALREADY_SAVED_RESTAURANT("E0301", "이미 저장된 가게입니다"),
+    NO_SUCH_RESTAURANT("E0302", "해당 ID 값을 가지는 식당이 없습니다")
     ;
 
     private final String errorCode;

@@ -40,8 +40,9 @@ public class RestaurantDetailController {
     }
 
     @PutMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<?> updateRestaurntInfo(@PathVariable String restaurantId, @RequestBody UpdateRestaurantRequestDto requestDto){
-//        ResponseDto<?> result = restaurantDetailService.updateRestarant();
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> updateRestaurntInfo(@PathVariable String restaurantId, @RequestBody UpdateRestaurantRequestDto requestDto) throws IllegalAccessException {
+        if(!requestDto.isValid()) throw new IllegalArgumentException(CustomError.BAD_REQUEST.name());//pathVariable은 null값이 올 수 없음
+        ResponseDto<?> result = restaurantDetailService.updateRestaurant(restaurantId, requestDto);
+        return ResponseEntity.ok(result);
     }
 }

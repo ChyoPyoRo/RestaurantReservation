@@ -2,6 +2,7 @@ package com.zerobase.restaurant.dto.restaurantDetail;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,9 +11,9 @@ import java.math.RoundingMode;
 @Setter
 public class UpdateRestaurantRequestDto {
     private String name;
+    private String explanation;
     private BigDecimal lat;
     private BigDecimal lon;
-    private String explanation;
 
     public void setLat(BigDecimal lat) {
         this.lat = normalizeCoordinate(lat);
@@ -27,4 +28,7 @@ public class UpdateRestaurantRequestDto {
         return value.setScale(6, RoundingMode.HALF_UP); // 소수점 6자리, 반올림
     }
 
+    public boolean isValid() {
+        return StringUtils.hasText(this.name) && StringUtils.hasText(this.explanation) && this.lat != null && this.lon != null;
+    }
 }
