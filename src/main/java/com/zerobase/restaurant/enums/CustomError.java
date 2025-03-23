@@ -9,7 +9,7 @@ public enum CustomError {
     //전체 에러
     BAD_REQUEST("E0001", "잘못된 요청입니다."),
     UNEXPECTED_ERROR("E0002", "예상치 못한 에러입니다"),
-    EMPTY_BODY("E0003", "Body가 잘못되었습니다"),
+    EMPTY_BODY("E0003", "Request형식이 잘못되었거나 비었습니다"),
     //JWT 관련 에러
     HEADER_WITHOUT_TOKEN("E0101", "헤더에 토큰값이 존재하지 않습니다"),
     JWT_TOKEN_INVALID("E0102", "jwt토큰 형식이 잘못 되었습니다"),
@@ -25,7 +25,9 @@ public enum CustomError {
     DELETED_ERROR("E0303", "해당 식당이 존재하지 않거나 권한이 없습니다."),
     //reservation 관련 에러
     RESERVATION_NOT_OPEN("E0401","아직 입장 가능 시간이 아닙니다."),
-    RESERVATION_EXPIRED("E0402","이미 만료된 예약입니다.")
+    RESERVATION_EXPIRED("E0402","이미 만료된 예약입니다."),
+    RESERVATION_FULL("E0403", "해당 시간에 예약 가능한 테이블이 없습니다."),
+    RESERVATION_CLOSED("E0404", "현재 예약할 수 없는 예약입니다.")
     ;
 
     private final String errorCode;

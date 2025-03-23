@@ -39,7 +39,7 @@ public class RestaurantDetailService {
                 .explanation(requestDto.getExplanation())
                 .lat(requestDto.getLat())
                 .lon(requestDto.getLon())
-                .table_count(requestDto.getTableCount())
+                .tableCount(requestDto.getTableCount())
                 .build();
         //동일한 주인이 동일한 위치에 동일한 가게를 등록할 수 없도록 검증
         if(restaurantDetailRepository.alreadySaved(restaurant)) throw new EntityExistsException(CustomError.ALREADY_SAVED_RESTAURANT.name());

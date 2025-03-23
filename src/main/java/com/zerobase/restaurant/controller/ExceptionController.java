@@ -23,6 +23,13 @@ public class ExceptionController {
         log.error("발생 위치 : {}:{}",ex.getStackTrace()[0].getFileName(), ex.getStackTrace()[0].getLineNumber());//어디서 발생했는지 확인
         return new ResponseEntity<>(ResponseDto.error(HttpStatus.CONFLICT, customError), HttpStatus.CONFLICT);//에러 response
     }
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ResponseDto> handleIllegalStateException(IllegalStateException ex) {
+        CustomError customError = CustomError.valueOf(ex.getMessage());//커스텀 객체로 생성
+        log.error(customError.getErrorCode());//어떤 에러인지 확인
+        log.error("발생 위치 : {}:{}",ex.getStackTrace()[0].getFileName(), ex.getStackTrace()[0].getLineNumber());//어디서 발생했는지 확인
+        return new ResponseEntity<>(ResponseDto.error(HttpStatus.CONFLICT, customError), HttpStatus.CONFLICT);//에러 response
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseDto> handleIllegalArgumentException(IllegalArgumentException ex) {

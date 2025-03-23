@@ -24,11 +24,11 @@ public class UserUtil {
                 .build();
     }
 
-    public static UUID getUserIdWithPartnerOrAdmin() throws IllegalAccessException {
+    public static UUID getUserIdWithAdminOrUser() throws IllegalAccessException {
         UserSessionDto userSessionDto = getUserSessionDto();
         String auth = userSessionDto.getRoleType();
 
-        if(RoleType.ADMIN.getRole().equals(auth) || RoleType.PARTNER.getRole().equals(auth)) {
+        if(RoleType.ADMIN.getRole().equals(auth) || RoleType.USER.getRole().equals(auth)) {
             return UUID.fromString(userSessionDto.getUserUuid());
         }
         else

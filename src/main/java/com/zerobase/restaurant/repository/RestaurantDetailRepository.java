@@ -52,7 +52,7 @@ public class RestaurantDetailRepository {
                         review.score.avg()//review에 해당되는 row들 평균 가져오기
                         ))
                 .from(restaurant)
-                .leftJoin(reservation).on(restaurant.uuid.eq(reservation.reservationId))//Reservation 중에 restaurantId를 가지고 있는 row들
+                .leftJoin(reservation).on(restaurant.uuid.eq(reservation.restaurantId))//Reservation 중에 restaurantId를 가지고 있는 row들
                 .leftJoin(review).on(reservation.uuid.eq(review.reservationId))//Review중에 Reservation을 가지고 있는 row들
                 .groupBy(restaurant.uuid, restaurant.name, restaurant.lat, restaurant.lon)
                 .offset((pageable.getOffset()))
@@ -69,7 +69,7 @@ public class RestaurantDetailRepository {
                         restaurant.name,
                         restaurant.lat.doubleValue(),//double타입으로 변환
                         restaurant.lon.doubleValue(),
-                        restaurant.table_count
+                        restaurant.tableCount
                         ))
                 .from(restaurant)
                 .where(restaurant.uuid.eq(restaurantId))
