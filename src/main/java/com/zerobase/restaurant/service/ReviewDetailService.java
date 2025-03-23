@@ -59,4 +59,19 @@ public class ReviewDetailService {
         review.update(requestDto.getScore(), requestDto.getComment());
         return ResponseDto.success();
     }
+
+    public ResponseDto<?> deleteReview(String reviewId) throws IllegalAccessException {
+        if(UserUtil.isAdmin()){
+            //Admin일 경우 review id 를 통해 조회후 삭제
+            long result = reviewDetailRepository.deleteReviewByUser(UUID.fromString(reviewId));
+            if(result == 0) throw new NoSuchElementException(CustomError.REVIEW_NO_EXIST.name());
+        }
+        else{
+            //아닐 경우 해당 review id의 작성자와 일치할 경우 삭제
+            UUID loginUser = UserUtil.getUserIdWithUser();
+            long result = reviewDetailRepository.deleteReview(UUID.fromString(reviewId), loginUser);
+            if(result == 0) throw new NoSuchElementException(CustomError.REVIEW_DELETED_ERROR.name());//삭제된 REVIEW가 없을 때 삭제
+        }
+        return ResponseDto.success();
+    }
 }

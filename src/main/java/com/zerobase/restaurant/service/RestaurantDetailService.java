@@ -18,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -72,7 +71,7 @@ public class RestaurantDetailService {
     public ResponseDto<?> deleteRestaurant(String restaurantId) throws IllegalAccessException {
         UUID userId = UserUtil.getUserIdWithPartner();
         long deletedRows =restaurantDetailRepository.deleteRestaurant(UUID.fromString(restaurantId), userId);//식당 uuid와 등록한 사람 uuid가 일치할 경우만 삭제
-        if(deletedRows == 0) throw new NoSuchElementException(CustomError.DELETED_ERROR.name());//삭제된 식당이 없으면 에러 반환
+        if(deletedRows == 0) throw new NoSuchElementException(CustomError.RESTAURANT_DELETED_ERROR.name());//삭제된 식당이 없으면 에러 반환
         return ResponseDto.success();
     }
 }

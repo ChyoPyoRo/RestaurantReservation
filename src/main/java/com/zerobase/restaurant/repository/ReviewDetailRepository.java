@@ -1,5 +1,6 @@
 package com.zerobase.restaurant.repository;
 
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zerobase.restaurant.entity.Reservation;
 import com.zerobase.restaurant.entity.Review;
@@ -51,8 +52,7 @@ public class ReviewDetailRepository {
 
     public boolean checkReviewOwner(UUID reviewId, UUID loginUser) {
         return queryFactory
-                .selectOne()
-                .from(review)
+                .selectFrom(review)
                 .join(reservation).on(review.reservationId.eq(reservation.uuid))
                 .where(
                         review.uuid.eq(reviewId),
@@ -61,4 +61,24 @@ public class ReviewDetailRepository {
                 .fetchFirst() != null;
     }
 
+    public long deleteReview(UUID uuid, UUID loginUser) {
+        return queryFactory.delete(review)
+                .where(
+                        review.uuid.eq(uuid),//REVIEW의 UUID가 동일한 것
+                        review.reservationId.in(//예약한 사람과 REVIEW를 작성한 사람이 동일할 때
+                                JPAExpressions
+                                        .select(reservation.uuid)
+                                        .from(reservation)
+                                        .where(reservation.userId.eq(loginUser))
+                        )
+                )
+                .execute();
+
+    }
+
+    public long deleteReviewByUser(UUID uuid) {
+        return queryFactory.delete(review)
+                .where(review.uuid.eq(uuid))
+                .execute();
+    }
 }

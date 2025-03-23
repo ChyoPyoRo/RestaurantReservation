@@ -22,7 +22,7 @@ public enum CustomError {
     //restaurant 관련 에러
     ALREADY_SAVED_RESTAURANT("E0301", "이미 저장된 가게입니다"),
     NO_SUCH_RESTAURANT("E0302", "해당 ID 값을 가지는 식당이 없습니다"),
-    DELETED_ERROR("E0303", "해당 식당이 존재하지 않거나 권한이 없습니다."),
+    RESTAURANT_DELETED_ERROR("E0303", "해당 식당이 존재하지 않거나 권한이 없습니다."),
     //reservation 관련 에러
     RESERVATION_NOT_OPEN("E0401","아직 입장 가능 시간이 아닙니다."),
     RESERVATION_EXPIRED("E0402","이미 만료된 예약입니다."),
@@ -33,7 +33,8 @@ public enum CustomError {
     RESERVATION_NO_SHOW("E0407", "이용하지 않은 예약입니다."),
     //review 관련 에러
     ALREADY_REVIEWED("E0501", "이미 리뷰를 작성한 예약입니다."),
-    REVIEW_NO_EXIST("E0502", "존재하지 않는 리뷰입니다.")
+    REVIEW_NO_EXIST("E0502", "존재하지 않는 리뷰입니다."),
+    REVIEW_DELETED_ERROR("E0503", "해당 리뷰가 존재하지 않거나 권한이 없습니다.")
     ;
 
     private final String errorCode;

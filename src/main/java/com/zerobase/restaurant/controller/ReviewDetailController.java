@@ -17,7 +17,7 @@ public class ReviewDetailController {
     private final ReviewDetailService reviewDetailService;
     @PostMapping("/review/{reservationId}")
     public ResponseEntity<?> postReview(@PathVariable String reservationId, @RequestBody PostReviewRequestDto requestDto) throws IllegalAccessException {
-        if(requestDto.isValid()) throw new IllegalAccessException(CustomError.BAD_REQUEST.name());
+        if(!requestDto.isValid()) throw new IllegalAccessException(CustomError.BAD_REQUEST.name());
         ResponseDto responseDto = reviewDetailService.saveReview(reservationId, requestDto);
         return ResponseEntity.ok(responseDto);
     }
@@ -33,6 +33,12 @@ public class ReviewDetailController {
     public ResponseEntity<?> updateReview(@PathVariable String reviewId, @RequestBody UpdateReveiwRequestDto requestDto ) throws IllegalAccessException{
         if(!requestDto.isValid()) throw new IllegalAccessException(CustomError.BAD_REQUEST.name());
         ResponseDto<?> responseDto = reviewDetailService.updateReview(reviewId, requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("/review/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable String reviewId) throws IllegalAccessException {
+        ResponseDto<?> responseDto = reviewDetailService.deleteReview(reviewId);
         return ResponseEntity.ok(responseDto);
     }
 }
