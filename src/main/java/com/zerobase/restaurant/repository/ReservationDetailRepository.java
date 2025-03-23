@@ -1,6 +1,8 @@
 package com.zerobase.restaurant.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.zerobase.restaurant.dto.reservationDetail.GetAllReservationResponseDto;
 import com.zerobase.restaurant.dto.reservationDetail.MakeReservationRequestDto;
 import com.zerobase.restaurant.entity.Reservation;
 import com.zerobase.restaurant.entity.Restaurant;
@@ -9,8 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.zerobase.restaurant.entity.QReservation.reservation;
+import static com.zerobase.restaurant.entity.QRestaurant.restaurant;
 
 @Repository
 @Slf4j
@@ -33,5 +37,25 @@ public class ReservationDetailRepository {
 
     public void saveReservation(Reservation reservation) {
         reservationRepository.save(reservation);
+    }
+
+    public Reservation getReservation(UUID reservationId) {
+        return queryFactory.selectFrom(reservation)
+                .where(reservation.uuid.eq(reservationId))
+                .fetchOne();
+    }
+
+    public List<GetAllReservationResponseDto> getAllReservationByUserId(UUID loginUser) {
+        return queryFactory.select(Projections.constructor(GetAllReservationResponseDto.class,
+                        reservation.uuid.as("reservationId"),
+                        restaurant.name.as("restaurantName"),
+                        reservation.date,
+                        reservation.time,
+                        reservation.tableNumber
+                        ))
+                .from(reservation)
+                .leftJoin(restaurant).on(restaurant.uuid.eq(reservation.restaurantId))
+                .where(reservation.userId.eq(loginUser))
+                .fetch();
     }
 }

@@ -21,4 +21,16 @@ public class ReservationDetailController {
         ResponseDto<?> result = reservationDetailService.makeReservation(requestDto, restaurantId);
         return ResponseEntity.ok(result);
     }
+
+    @PutMapping("/reservation/{reservationId}")//이미 생성된 reservation를 변경하는 것
+    public ResponseEntity<?> updateReservationState(@PathVariable String reservationId) throws IllegalAccessException {
+        ResponseDto<?> result = reservationDetailService.updateReservation(reservationId);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/reservation")
+    public ResponseEntity<?> getAllReservationsOfUser() throws IllegalAccessException {
+        ResponseDto<?> result = reservationDetailService.getAllReservationOfCurrentUser();
+        return ResponseEntity.ok(result);
+    }
 }

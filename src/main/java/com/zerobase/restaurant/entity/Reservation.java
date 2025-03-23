@@ -38,20 +38,7 @@ public class Reservation {
 
 
     //예약 도착 확인 메서드
-    public void checkUpdate(){
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime reservationTime = LocalDateTime.of(this.date, this.time);
-        LocalDateTime windowStart = reservationTime.minusMinutes(10);
-        LocalDateTime windowEnd = reservationTime.plusMinutes(10);
-
-        if (now.isBefore(windowStart)) {
-            throw new IllegalStateException();
-        }
-
-        if (now.isAfter(windowEnd)) {
-            throw new IllegalStateException();
-        }
-
-        this.isArrived = true;
+    public void updateArrivedState(){
+        this.isArrived=true;
     }
 }

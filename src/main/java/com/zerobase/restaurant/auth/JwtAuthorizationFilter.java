@@ -37,7 +37,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, java.io.IOException {
-        List<String> nonAuthUrls = Arrays.asList("/restaurants", "/restaurant/*","/reservation"); //해당 url에 대해서 jwt 인증 스킵
+        List<String> nonAuthUrls = Arrays.asList("/restaurants", "/restaurant/*"); //해당 url에 대해서 jwt 인증 스킵
         String requestURI = request.getRequestURI();
         String method = request.getMethod();
         AntPathMatcher pathMatcher = new AntPathMatcher();
