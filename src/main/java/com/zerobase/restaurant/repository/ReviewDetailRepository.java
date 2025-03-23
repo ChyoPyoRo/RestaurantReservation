@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.zerobase.restaurant.entity.QReservation.reservation;
@@ -33,5 +34,12 @@ public class ReviewDetailRepository {
         return queryFactory.selectFrom(review)
                 .where(review.reservationId.eq(reservation.getUuid()))
                 .fetchOne() != null;
+    }
+
+    public List<Review> getAllReviewByUserId(UUID loginUser) {
+        return queryFactory.selectFrom(review)
+                .leftJoin(reservation).on(review.reservationId.eq(reservation.uuid))
+                .where(reservation.userId.eq(loginUser))
+                .fetch();
     }
 }
