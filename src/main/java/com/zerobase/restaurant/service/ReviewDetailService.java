@@ -2,6 +2,7 @@ package com.zerobase.restaurant.service;
 
 import com.zerobase.restaurant.dto.ResponseDto;
 import com.zerobase.restaurant.dto.reviewDetail.PostReviewRequestDto;
+import com.zerobase.restaurant.dto.reviewDetail.UpdateReveiwRequestDto;
 import com.zerobase.restaurant.entity.Reservation;
 import com.zerobase.restaurant.entity.Review;
 import com.zerobase.restaurant.enums.CustomError;
@@ -46,5 +47,16 @@ public class ReviewDetailService {
         UUID loginUser = UserUtil.getUserIdWithUser();
         List<Review> reviewList = reviewDetailRepository.getAllReviewByUserId(loginUser);
         return ResponseDto.success(reviewList);
+    }
+
+    public ResponseDto<?> updateReview(String inputReviewId, UpdateReveiwRequestDto requestDto) throws IllegalAccessException {
+        UUID loginUser = UserUtil.getUserIdWithUser();
+        UUID reviewId = UUID.fromString(inputReviewId);
+        Review review = reviewDetailRepository.getReviewById(reviewId);
+        if(review == null) throw new NoSuchElementException(CustomError.REVIEW_NO_EXIST.name());//리뷰없으면 error
+        if(!reviewDetailRepository.checkReviewOwner(review.getUuid(), loginUser)) throw new IllegalAccessException(CustomError.UNAUTHORIZED.name());
+        //기본으로 ""를 반환해주기 때문에 무조건 다 있음
+        review.update(requestDto.getScore(), requestDto.getComment());
+        return ResponseDto.success();
     }
 }

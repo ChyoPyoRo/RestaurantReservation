@@ -20,4 +20,9 @@ public class Review {
     private Double score;
     @Column
     private String comment;
+
+    public void update(Double score, String comment) {
+        this.score = score;
+        this.comment = comment;
+    }
 }

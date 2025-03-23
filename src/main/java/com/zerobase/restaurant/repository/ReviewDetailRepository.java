@@ -42,4 +42,23 @@ public class ReviewDetailRepository {
                 .where(reservation.userId.eq(loginUser))
                 .fetch();
     }
+
+    public Review getReviewById(UUID reviewId) {
+        return queryFactory.selectFrom(review)
+                .where(review.uuid.eq(reviewId))
+                .fetchOne();
+    }
+
+    public boolean checkReviewOwner(UUID reviewId, UUID loginUser) {
+        return queryFactory
+                .selectOne()
+                .from(review)
+                .join(reservation).on(review.reservationId.eq(reservation.uuid))
+                .where(
+                        review.uuid.eq(reviewId),
+                        reservation.userId.eq(loginUser)
+                )
+                .fetchFirst() != null;
+    }
+
 }
