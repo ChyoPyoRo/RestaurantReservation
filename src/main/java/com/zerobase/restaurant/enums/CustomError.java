@@ -29,7 +29,10 @@ public enum CustomError {
     RESERVATION_FULL("E0403", "해당 시간에 예약 가능한 테이블이 없습니다."),
     RESERVATION_CLOSED("E0404", "현재 예약할 수 없는 예약입니다."),
     RESERVATION_NO_EXIST("E0405", "존재하지 않는 예약입니다."),
-    RESERVATION_ALREADY_USED("E0406", "이미 입장 처리된 예약입니다")
+    RESERVATION_ALREADY_USED("E0406", "이미 입장 처리된 예약입니다"),
+    RESERVATION_NO_SHOW("E0407", "이용하지 않은 예약입니다."),
+    //review 관련 에러
+    ALREADY_REVIEWED("E0501", "이미 리뷰를 작성한 예약입니다.")
     ;
 
     private final String errorCode;
